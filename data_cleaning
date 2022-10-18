@@ -1,0 +1,25 @@
+--Python code for data cleaning
+
+
+from google.colab import files
+uploaded = files.upload()
+
+import pandas as pd
+df = pd.read_csv('crime.csv',encoding='ISO-8859-1')
+
+import numpy as np
+df = df.replace(np.NaN, 0)
+df = df.replace(' ',0)
+
+df['SHOOTING'] = df['SHOOTING'].replace(0,"N")
+
+df=df[df.Lat != -1]
+
+df=df.loc[df['STREET'] != 0]
+
+df=df.loc[df['DISTRICT'] != 0]
+
+df=df.loc[(df['Lat'] != 0) & (df['Long'] != 0)]
+
+df.to_csv('crime_final.csv', encoding = 'ISO-8859-1') 
+files.download('crime_final.csv') 
